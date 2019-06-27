@@ -46,7 +46,8 @@ double Pid::calculate( double error ){
     eLast = error;
     //all for derivative
 
-    pros::delay(dT);
+    usleep(dT); //uncomment if you run unix based
+    //sleep(dT); //uncomment if you run evil windows
     //gotta delay
 
     return((             
