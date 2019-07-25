@@ -17,34 +17,34 @@ SOFTWARE.
 
 #include "pid.hpp"
 
-Pid::Pid( double kPset ){
-    kP = kPset;
+Pid::Pid( const double ikP ){
+    kP = ikP;
     kI = 0;
     kD = 0;
 }
 
-Pid::Pid( double kPset, double kDset ){
-    kP = kPset;
+Pid::Pid( const double ikP, const double ikD ){
+    kP = ikP;
     kI = 0;
-    kD = kDset;
+    kD = ikD;
 }
 
-Pid::Pid( double kPset, double kIset, double kDset ){
-    kP = kPset;
-    kI = kIset;
-    kD = kDset;    
+Pid::Pid( double ikP, double ikI, double ikD ){
+    kP = ikP;
+    kI = ikI;
+    kD = ikD;    
 }
 
-void Pid::eSetRange( int eRangeIn ){
-    eRange = eRangeIn;
+void Pid::eSetRange( int ieRange ){
+    eRange = ieRange;
 }
 
-void Pid::setMaxI( int maxIIn ){
-    maxI = maxIIn;
+void Pid::setMaxI( int imaxI ){
+    maxI = imaxI;
 }
 
-double Pid::calculate( double error ){
-    p = error;
+double Pid::calculate( double ierror ){
+    error = ierror;
     //all for proportional
 
     i += error; //area under curve      //TODO: see pdf 3.1
@@ -68,9 +68,9 @@ double Pid::calculate( double error ){
     //gotta delay
 
     return((             
-        ( kP * p ) +    /*  p   p  */
-        ( kI * i ) +    /*    i    */
-        ( kD * d )      /*  \ddd/  */
+        ( kP * error ) +    /*  p   p  */
+        ( kI * i ) +        /*    i    */
+        ( kD * d )          /*  \ddd/  */
     ));
-    //done (as if you didnt already know)
+    //done
 }

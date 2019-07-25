@@ -17,6 +17,7 @@ SOFTWARE.
 
 #pragma once
 #include <unistd.h>
+#include <cmath>
 
 class Pid{
     public:
@@ -24,32 +25,32 @@ class Pid{
     /**
      * Constructor to initialize the kP, kI, and kD
      * 
-     * /params double kPset
+     * /params double ikP
      *     This is multiplied by the error and then returned.
      */    
-    Pid( double kPset );
+    Pid( const double );
 
     /**
      * Constructor to initialize the kP, kI, and kD
      * 
-     * /params double kPset
+     * /params double ikP
      *      This is multiplied by the error and then added to below
-     * /parmas double kDset
+     * /parmas double ikD
      *      This is multiplied by derivative and then added to above
      */
-    Pid( double kPset, double kDset );
+    Pid( const double, const double);
 
     /**
      * Constructor to initialize the kP, kI, and kD
      * 
-     * /params double kPset
+     * /params double ikP
      *      This is multiplied by the error and then added to below
-     * /params double kIset    
+     * /params double ikI    
      *      This is multiplied by the integral then added to above
-     * /parmas double kDset
+     * /parmas double ikD
      *      This is multiplied by derivative and then added to above
      */
-    Pid( double kPset, double kIset, double kDset );
+    Pid( const double, const double, const double );
 
     /**
      * eRange defines the error's range of tolerance to avoid 
@@ -57,28 +58,28 @@ class Pid{
      * 
      * /params int eRangeIn
      */
-    void eSetRange( int eRangeIn );
+    void eSetRange( const int );
 
     /**
      * set this to the max feasible output of the pid controller
      * 
-     * /params int MaxIIn
+     * /params int iMaxI
      */
-    void setMaxI( int maxIIn );
+    void setMaxI( const int );
 
     /**
      * This will calculate how pid works. If you don't know how
      * pid works and plan to impliment it then I'd suggest that 
      * you look at the pid pdf and python example in this directory.
      * 
-     * /params double error
+     * /params double ierror
      *      This should be setpoint - sensor value
      * /return kP * Error + kI * Integral + kD * Derivative
      */
-    double calculate( double error );
+    double calculate( const double );
 
     private:
-    double p;           //power = error
+    double error;           //input from method calculate
     int eRange = 1;     //error range of tolerance
     double kP;
 
@@ -87,7 +88,7 @@ class Pid{
     double kI;
 
     double eLast = 0;   //last error
-    double d;           //derivative   
+    double d;           //derivative
     double kD;
 
     unsigned int dT = 15;
